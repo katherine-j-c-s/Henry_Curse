@@ -13,7 +13,23 @@ nuevoContador()     // 2
 const otroContador = counter()
 otroContador()      // 1
 otroContador()      // 2 */
-function counter() {}
+
+function counter() {
+  var count = 0;
+  return function() {
+    count++
+    return count
+  }
+}
+const instancia_counter = counter();
+console.log(instancia_counter());
+console.log(instancia_counter());
+const instancia_counter2 = counter();
+console.log(instancia_counter2());
+console.log(instancia_counter2());
+console.log(instancia_counter2());
+
+ 
 
 /* Ejercicio 2
 Tu tarea aquí es lograr, mediante un closure, que cacheFunction actúe como una memoria caché para el callback 
@@ -33,8 +49,35 @@ otra vez cálculos que ya se hicieron anteriormente.
   squareCache(5)    // invocará a square(5), almacenará el resultado y lo retornará
   squareCache(5)    // no volverá a invocar a square, simplemente buscará en la caché cuál es el resultado de square(5) y lo retornará (tip: si usaste un objeto, podés usar hasOwnProperty) */
 
-function cacheFunction(cb) {}
+const jaime = function(x) {return x * 2}  
 
+function cacheFunction(cb) {
+  const cache = {} 
+  //console.log("---->",cb);//--->es una funcion que multiplica por 2
+  return function(num) {
+    if (cache.hasOwnProperty(num)) {
+      console.log("si se encuentra");
+      return cache[num]
+    }
+    cache[num] = cb(num) //---> cache = {2:4} ---> agrega una nueva propiedad con su valor
+    return cache[num] //---> cache["2"] -> 4  devuelve el valor de la prop
+  }
+}
+
+var instancia_cache1 = cacheFunction(jaime);
+console.log(instancia_cache1(2)); // 4
+console.log(instancia_cache1(22));// 44
+console.log(instancia_cache1(12));// 24
+
+/*
+por parametro un numero ---> (4) -> (3)
+cache = {
+  multiplica el valor por 2
+  prop : value
+  4: 8,
+  2: 6
+}
+*/
 //----------------------------------------
 
 // Bind
@@ -58,8 +101,8 @@ function getNombre() {
   Usando el método bind() guardar, en las dos variables declaradas a continuación, dos funciones que actúen como getNombre pero retornen el nombre del instructor y del alumno, respectivamente.
 */
 
-let getNombreInstructor = getNombre.bind();
-let getNombreAlumno = getNombre.bind();
+let getNombreInstructor = getNombre.bind(instructor);
+let getNombreAlumno = getNombre.bind(alumno);
 
 /*
   Ejercicio 4
@@ -69,11 +112,26 @@ let getNombreAlumno = getNombre.bind();
 function crearCadena(delimitadorIzquierda, delimitadorDerecha, cadena) {
     return delimitadorIzquierda + cadena + delimitadorDerecha;
 }
+//nos tiene que devolver esto :
+// (textoAterisco('Hola')).toEqual('*Hola*')
 
-let textoAsteriscos = crearCadena.bind();
-let textoGuiones = crearCadena.bind();
-let textoUnderscore = crearCadena.bind();
+let textoAsteriscos = crearCadena.bind(null,"*","*");
+//let intancia = funcion.bind( objeto, parFunc1 , parFunc2... )
+// si no queremos sacarlo de un objeto , se coloca null
+console.log(textoAsteriscos("hola"));
+//pasa los parametros faltantes
+let textoGuiones = crearCadena.bind(null,"-","-");
+let textoUnderscore = crearCadena.bind(null,"_","_");
 
+//esto nos hace un simulacro de closure
+//porque nos retorna una funcion
+//ya que no se conecta a ningun objeto
+
+/*
+Bind Call Apply
+  1    son todos parametros de la funcion
+( objeto, 2 , 3 )
+*/
 // No modifiquen nada debajo de esta linea
 // --------------------------------
 

@@ -14,9 +14,36 @@ Secuencia:  0, 1, 1, 2, 3, 5, 8, 13, 21, 34, ...
 Como ejercicio adicional y completamente opcional, al terminar de resolver este problema pueden intentar definir funciones que logren los mismos resultados pero de manera iterativa.
 */
 
-function nFactorial(n) {}
+function nFactorial(n) {
+  var numero = n;
+  var numeros = [numero];
+  while (numero > 1) {
+    numero--;
+    numeros.push(numero);
+  }
+  var factorial = 1;
+  for (let e = 0; e < numeros.length; e++) {
+    factorial = factorial * numeros[e];
+  }
+  return factorial;
+}
+console.log(nFactorial(5));
 
-function nFibonacci(n) {}
+function nFibonacci(n) {
+  var posición = n + 1 ;
+  //para que comienze en 0 y no en 1
+  //asi recoge el numero por el indice del array
+  var fibonacci = [0];
+  var num = 1;
+  while (posición > fibonacci.length) {
+    fibonacci.push(num)
+    let ultimo = fibonacci[fibonacci.length - 1];
+    let anteUltimo = fibonacci[fibonacci.length - 2];
+    num = ultimo + anteUltimo;
+  }
+  return fibonacci[posición -1];
+}
+console.log(nFibonacci(7));
 
 /*
 Implementar la clase Queue, sabiendo que es una estructura de tipo FIFO, donde el primer elemento que ingresa es el primero que se quita. Definir los siguientes métodos:
@@ -27,8 +54,34 @@ Implementar la clase Queue, sabiendo que es una estructura de tipo FIFO, donde e
 Pueden utilizar class o función constructora.
 */
 
-function Queue() {}
+class Queue {
+  constructor(){
+      this.data = [];
+  }
+}
 
+Queue.prototype.enqueue = function(value) { return this.data.push(value);};
+Queue.prototype.dequeue = function() {
+  if(this.size() === 0) {
+    return undefined
+  }
+  return this.data.shift();};
+Queue.prototype.size = function() { return this.data.length};
+
+let instanciaQueue = new Queue();
+
+instanciaQueue.enqueue("kathe");
+instanciaQueue.enqueue("gabi");
+instanciaQueue.enqueue("mama");
+instanciaQueue.enqueue("papa");
+instanciaQueue.dequeue();
+instanciaQueue.dequeue();
+instanciaQueue.dequeue();
+instanciaQueue.dequeue();
+
+instanciaQueue;
+
+console.log(instanciaQueue.dequeue());
 /*⚠️ No modificar nada debajo de esta línea ⚠️*/
 module.exports = {
    Queue,
